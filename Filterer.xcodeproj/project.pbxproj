@@ -12,6 +12,9 @@
 		280B28F51BE9582500B4BB3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 280B28F31BE9582500B4BB3F /* Main.storyboard */; };
 		280B28F71BE9582500B4BB3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 280B28F61BE9582500B4BB3F /* Assets.xcassets */; };
 		280B28FA1BE9582500B4BB3F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 280B28F81BE9582500B4BB3F /* LaunchScreen.storyboard */; };
+		280B29021BE95C0200B4BB3F /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280B29011BE95C0200B4BB3F /* Filter.swift */; };
+		280B29051BE95C1100B4BB3F /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280B29031BE95C1100B4BB3F /* ImageProcessor.swift */; };
+		280B29061BE95C1100B4BB3F /* RGBAImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280B29041BE95C1100B4BB3F /* RGBAImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		280B28F61BE9582500B4BB3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		280B28F91BE9582500B4BB3F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		280B28FB1BE9582500B4BB3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		280B29011BE95C0200B4BB3F /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		280B29031BE95C1100B4BB3F /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		280B29041BE95C1100B4BB3F /* RGBAImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBAImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,9 @@
 		280B28EE1BE9582500B4BB3F /* Filterer */ = {
 			isa = PBXGroup;
 			children = (
+				280B29011BE95C0200B4BB3F /* Filter.swift */,
+				280B29031BE95C1100B4BB3F /* ImageProcessor.swift */,
+				280B29041BE95C1100B4BB3F /* RGBAImage.swift */,
 				280B28EF1BE9582500B4BB3F /* AppDelegate.swift */,
 				280B28F11BE9582500B4BB3F /* ViewController.swift */,
 				280B28F31BE9582500B4BB3F /* Main.storyboard */,
@@ -136,7 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				280B29061BE95C1100B4BB3F /* RGBAImage.swift in Sources */,
 				280B28F21BE9582500B4BB3F /* ViewController.swift in Sources */,
+				280B29021BE95C0200B4BB3F /* Filter.swift in Sources */,
+				280B29051BE95C1100B4BB3F /* ImageProcessor.swift in Sources */,
 				280B28F01BE9582500B4BB3F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,7 +262,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Filterer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = srcmonster.Filterer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -261,7 +275,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Filterer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = srcmonster.Filterer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
