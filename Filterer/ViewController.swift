@@ -9,11 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    var originalImage: UIImage?
     var imageProcessor: ImageProcessor?
-    var filters = [String: Filter]()
+    var filter: Filter?
+    var currentFilterButton: UIButton?
+    var currentImageView: UIImageView?
+    let Original: Bool = true
+    let Filtered: Bool = false
     
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var lowerImageView: UIImageView!
+    @IBOutlet var upperImageView: UIImageView!
     @IBOutlet var secondaryMenu: UIView!
     @IBOutlet var textOverlay: UIView!
     @IBOutlet var bottomMenu: UIStackView!
@@ -28,97 +32,99 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareButton.enabled = false
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        imageView.userInteractionEnabled = true
+        upperImageView.userInteractionEnabled = true
+        lowerImageView.userInteractionEnabled = true
+        lowerImageView.alpha = 0
+        upperImageView.alpha = 1
+        currentImageView = upperImageView
         textOverlay.translatesAutoresizingMaskIntoConstraints = false
         textOverlay.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
     }
     
     @IBAction func onPress(sender: UILongPressGestureRecognizer) {
+        print(lowerImageView.alpha)
         if compareButton.enabled {
             if sender.state == .Began {
-                showOriginalImage()
+                switchImage(Original)
             }
             else if sender.state == .Ended {
-                showFilteredImage()
+                switchImage(Filtered)
             }
         }
     }
     
     @IBAction func onApplyFilter(sender: UIButton) {
-        let filterName = sender.currentTitle!
-        var filter = filters[filterName]
+        imageProcessor?.reset()
         if sender.selected {
             sender.selected = false
-            if filter != nil {
-                filters[filterName] = nil
-                imageProcessor = ImageProcessor(image: originalImage!)
-                imageProcessor?.applyFilters(Array(filters.values))
-                showFilteredImage()
-            }
+            resetCurrentFilter()
         }
         else {
             sender.selected = true
-            if filter == nil {
-                filter = Gamma.getFilterByName(filterName)  // Can't call protocol extension on the protocol itself :(
-                filters[filterName] = filter
-                imageProcessor?.applyFilter(filter!)
-                showFilteredImage()
-                compareButton.enabled = true
-            }
+            applyFilter(sender)
         }
+        switchImage(Filtered)
+    }
+    
+    func resetCurrentFilter() {
+        currentFilterButton = nil
+    }
+    
+    func applyFilter(sender: UIButton) {
+        if currentFilterButton != nil {
+            currentFilterButton!.selected = false
+        }
+        currentFilterButton = sender
+        compareButton.enabled = true
+        let filterName = sender.currentTitle!
+        filter = Gamma.getFilterByName(filterName)  // Can't call protocol extension on the protocol itself :(
+        imageProcessor?.applyFilter(filter!)
     }
     
     @IBAction func onCompare(sender: UIButton) {
         hideSecondaryMenu()
-        toggleSelectAndHandle(compareButton, selectFunc: showOriginalImage, deselectFunc: showFilteredImage)
-    }
-    
-    func toggleSelectAndHandle(button: UIButton, selectFunc: () -> Void, deselectFunc: () -> Void) {
-        if button.selected {
-            deselectFunc()
-            button.selected = false
+        if sender.selected {
+            sender.selected = false
+            switchImage(Filtered)
         }
         else {
-            selectFunc()
-            button.selected = true
+            sender.selected = true
+            switchImage(Original)
         }
     }
     
-    func showOriginalImage() {
-        imageView.addSubview(textOverlay)
-        let topConstraint = textOverlay.topAnchor.constraintEqualToAnchor(imageView.topAnchor)
-        let leftConstraint = textOverlay.leftAnchor.constraintEqualToAnchor(imageView.leftAnchor)
-        let rightConstraint = textOverlay.rightAnchor.constraintEqualToAnchor(imageView.rightAnchor)
-        let heightConstraint = textOverlay.heightAnchor.constraintEqualToConstant(44)
-        NSLayoutConstraint.activateConstraints([topConstraint, leftConstraint, rightConstraint, heightConstraint])
-        showImage(originalImage)
-    }
-    
-    func showFilteredImage() {
-        textOverlay.removeFromSuperview()
-        showImage(imageProcessor?.getImage())
-    }
-    
-    func showImage(image: UIImage?) {
-        if image != nil {
-            imageView.image = image!
-            view.layoutIfNeeded()
+    func switchImage(type: Bool) {
+        let newView = getNewImageView()
+        if (type == Original) {
+            showOriginalText(newView)
+            newView.image = imageProcessor!.getOriginalImage()
         }
-    }
-
-    func setImage(image: UIImage) {
-        self.originalImage = image
-        self.imageProcessor = ImageProcessor(image: image)
-        showOriginalImage()
+        else {
+            hideOriginalText()
+            newView.image = imageProcessor!.getFilteredImage()
+        }
+        newView.layoutIfNeeded()
+        // TODO: cross fade!
+        newView.alpha = 1
+        currentImageView?.alpha = 0
+        currentImageView = newView
+        
     }
     
+    func getNewImageView() -> UIImageView {
+        if currentImageView == lowerImageView {
+            return upperImageView
+        }
+        return lowerImageView
+    }
+   
     @IBAction func onShare(sender: UIButton) {
         hideSecondaryMenu()
         if compareButton.selected {
-            showFilteredImage()
             compareButton.selected = false
+            switchImage(Filtered)
         }
-        let activityController = UIActivityViewController(activityItems: [imageView.image!], applicationActivities: nil)
+        let activityController = UIActivityViewController(activityItems: [currentImageView!.image!], applicationActivities: nil)
         presentViewController(activityController, animated: true, completion: nil)
     }
 
@@ -144,11 +150,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         dismissViewControllerAnimated(true, completion: nil)
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            setImage(image)
+        if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageProcessor = ImageProcessor(image: newImage)
             compareButton.enabled = false
             filterButton.enabled = true
             shareButton.enabled = true
+            switchImage(Original)
         }
     }
     
@@ -161,8 +168,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             hideSecondaryMenu()
         } else {
             if compareButton.selected {
-                showFilteredImage()
                 compareButton.selected = false
+                switchImage(Filtered)
             }
             showSecondaryMenu()
         }
@@ -195,6 +202,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             filterButton.selected = false
         }
+    }
+    
+    func showOriginalText(imageView: UIImageView) {
+        imageView.addSubview(textOverlay)
+        let topConstraint = textOverlay.topAnchor.constraintEqualToAnchor(imageView.topAnchor)
+        let leftConstraint = textOverlay.leftAnchor.constraintEqualToAnchor(imageView.leftAnchor)
+        let rightConstraint = textOverlay.rightAnchor.constraintEqualToAnchor(imageView.rightAnchor)
+        let heightConstraint = textOverlay.heightAnchor.constraintEqualToConstant(44)
+        NSLayoutConstraint.activateConstraints([topConstraint, leftConstraint, rightConstraint, heightConstraint])
+//        imageView.layoutIfNeeded()
+//        
+//        secondaryMenu.alpha = 0
+//        UIView.animateWithDuration(0.4) {
+//            self.secondaryMenu.alpha = 1
+//        }
+   }
+
+    func hideOriginalText() {
+//        UIView.animateWithDuration(0.4, animations: {
+//            self.textOverlay.alpha = 0
+//            }) { completed in
+//                if completed {
+                     self.textOverlay.removeFromSuperview()
+//                }
+//        }
     }
 }
 

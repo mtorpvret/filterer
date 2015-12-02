@@ -27,11 +27,15 @@ public extension Filter {
 // http://www.dfstudios.co.uk/articles/programming/image-programming-algorithms/
 
 public class Contrast: Filter {
-    let factor: Double
+    var factor: Double
     static public var minValue: Double = -255
     static public var maxValue: Double = 255
     static public var defaultValue: Double = 50
+    // TODO: DRY
     public init(level: Double) {
+        factor = 259*Double(Int(level)+255)/Double(255*(259-Int(level)))        
+    }
+    public func set(level: Double) {
         factor = 259*Double(Int(level)+255)/Double(255*(259-Int(level)))
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
@@ -51,11 +55,14 @@ public class Contrast: Filter {
 }
 
 public class Gamma: Filter {
-    let gCorr: Double
+    var gCorr: Double
     static public var minValue: Double = 0
     static public var maxValue: Double = 8
     static public var defaultValue: Double = 1.25
     public init(value: Double) {
+        gCorr = 1/value
+    }
+    public func set(value: Double) {
         gCorr = 1/value
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
@@ -70,11 +77,14 @@ public class Gamma: Filter {
 }
 
 public class Solarise: Filter {
-    let threshold: UInt8
+    var threshold: UInt8
     static public var minValue: Double = 0
     static public var maxValue: Double = 255
     static public var defaultValue: Double = 128
     public init(threshold: Double) {
+        self.threshold = UInt8(threshold)
+    }
+    public func set(threshold: Double) {
         self.threshold = UInt8(threshold)
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
@@ -95,11 +105,19 @@ public class Solarise: Filter {
 }
 
 public class Grayscale: Filter {
-    let weighted: Bool
+    var weighted: Bool
     static public var minValue: Double = 0
     static public var maxValue: Double = 1
     static public var defaultValue: Double = 1
     public init(weighted: Double) {
+        if (weighted < 0.5) {
+            self.weighted = false
+        }
+        else {
+            self.weighted = true
+        }
+    }
+    public func set(weighted: Double) {
         if (weighted < 0.5) {
             self.weighted = false
         }
@@ -127,11 +145,14 @@ public class Grayscale: Filter {
 }
 
 public class Brightness: Filter {
-    let increase: Int8
+    var increase: Int8
     static public var minValue: Double = -255
     static public var maxValue: Double = 255
     static public var defaultValue: Double = 30
     public init(increase: Double) {
+        self.increase = Int8(increase)
+    }
+    public func set(increase: Double) {
         self.increase = Int8(increase)
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
