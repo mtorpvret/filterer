@@ -303,6 +303,7 @@
 				280B29001BE9582500B4BB3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

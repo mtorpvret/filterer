@@ -28,13 +28,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         filterButton.enabled = false
-        shareButton.enabled = false
+        shareButton.enabled = true
         compareButton.enabled = false
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         upperImageView.userInteractionEnabled = true
         lowerImageView.userInteractionEnabled = true
-        lowerImageView.alpha = 0
+        lowerImageView.alpha = 1
         upperImageView.alpha = 1
         currentImageView = upperImageView
         textOverlay.translatesAutoresizingMaskIntoConstraints = false
@@ -104,9 +104,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             newView.image = imageProcessor!.getFilteredImage()
         }
         newView.layoutIfNeeded()
-        // TODO: cross fade!
-        newView.alpha = 1
-        currentImageView?.alpha = 0
+        if newView == upperImageView {
+            UIView.animateWithDuration(0.4) {
+                self.upperImageView.alpha = 1
+            }
+        }
+        else {
+            UIView.animateWithDuration(0.4) {
+                self.upperImageView.alpha = 0
+            }
+        }
         currentImageView = newView
         
     }
@@ -211,12 +218,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let rightConstraint = textOverlay.rightAnchor.constraintEqualToAnchor(imageView.rightAnchor)
         let heightConstraint = textOverlay.heightAnchor.constraintEqualToConstant(44)
         NSLayoutConstraint.activateConstraints([topConstraint, leftConstraint, rightConstraint, heightConstraint])
-//        imageView.layoutIfNeeded()
-//        
-//        secondaryMenu.alpha = 0
-//        UIView.animateWithDuration(0.4) {
-//            self.secondaryMenu.alpha = 1
-//        }
+        secondaryMenu.alpha = 1
    }
 
     func hideOriginalText() {
@@ -224,7 +226,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //            self.textOverlay.alpha = 0
 //            }) { completed in
 //                if completed {
-                     self.textOverlay.removeFromSuperview()
+                    self.textOverlay.removeFromSuperview()
 //                }
 //        }
     }

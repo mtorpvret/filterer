@@ -30,7 +30,7 @@ public class Contrast: Filter {
     var factor: Double
     static public var minValue: Double = -255
     static public var maxValue: Double = 255
-    static public var defaultValue: Double = 50
+    static public var defaultValue: Double = 100
     // TODO: DRY
     public init(level: Double) {
         factor = 259*Double(Int(level)+255)/Double(255*(259-Int(level)))        
@@ -58,7 +58,7 @@ public class Gamma: Filter {
     var gCorr: Double
     static public var minValue: Double = 0
     static public var maxValue: Double = 8
-    static public var defaultValue: Double = 1.25
+    static public var defaultValue: Double = 4
     public init(value: Double) {
         gCorr = 1/value
     }
@@ -148,7 +148,7 @@ public class Brightness: Filter {
     var increase: Int8
     static public var minValue: Double = -255
     static public var maxValue: Double = 255
-    static public var defaultValue: Double = 30
+    static public var defaultValue: Double = 100
     public init(increase: Double) {
         self.increase = Int8(increase)
     }
