@@ -150,42 +150,39 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xge-l4-S3Y">
                                     <rect key="frame" x="0.0" y="0.0" width="48" height="128"/>
                                     <animations/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <state key="normal" title="Brightness">
-                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
+                                    <state key="normal" title="Brightness" image="Brightness (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UAW-bd-XpK"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B23-93-VAJ">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B23-93-VAJ">
                                     <rect key="frame" x="48" y="0.0" width="48" height="128"/>
                                     <animations/>
-                                    <state key="normal" title="Contrast"/>
+                                    <state key="normal" title="Contrast" image="Contrast (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHr-9a-m4N"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7a2-1g-6h9">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7a2-1g-6h9">
                                     <rect key="frame" x="96" y="0.0" width="48" height="128"/>
                                     <animations/>
-                                    <state key="normal" title="Gamma"/>
+                                    <state key="normal" title="Gamma" image="Gamma (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HO2-Nu-A42"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ugk-w2-EuP">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ugk-w2-EuP">
                                     <rect key="frame" x="144" y="0.0" width="48" height="128"/>
                                     <animations/>
-                                    <state key="normal" title="Solarise"/>
+                                    <state key="normal" title="Solarise" image="Solarise (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BhU-LL-Rth"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EG-kn-Or7">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EG-kn-Or7">
                                     <rect key="frame" x="192" y="0.0" width="48" height="128"/>
                                     <animations/>
-                                    <state key="normal" title="Grayscale"/>
+                                    <state key="normal" title="Grayscale" image="Grayscale (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cD2-Ef-pQ8"/>
                                     </connections>
@@ -217,4 +214,11 @@
             <point key="canvasLocation" x="325" y="385"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Brightness (100x100).jpg" width="100" height="100"/>
+        <image name="Contrast (100x100).jpg" width="100" height="100"/>
+        <image name="Gamma (100x100).jpg" width="100" height="100"/>
+        <image name="Grayscale (100x100).jpg" width="100" height="100"/>
+        <image name="Solarise (100x100).jpg" width="100" height="100"/>
+    </resources>
 </document>
