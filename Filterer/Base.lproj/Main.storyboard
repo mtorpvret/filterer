@@ -151,6 +151,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="48" height="128"/>
                                     <animations/>
                                     <state key="normal" title="Brightness" image="Brightness (100x100).jpg"/>
+                                    <state key="selected" image="Brightness selected(100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UAW-bd-XpK"/>
                                     </connections>
@@ -159,6 +160,7 @@
                                     <rect key="frame" x="48" y="0.0" width="48" height="128"/>
                                     <animations/>
                                     <state key="normal" title="Contrast" image="Contrast (100x100).jpg"/>
+                                    <state key="selected" image="Contrast selected (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YHr-9a-m4N"/>
                                     </connections>
@@ -167,6 +169,7 @@
                                     <rect key="frame" x="96" y="0.0" width="48" height="128"/>
                                     <animations/>
                                     <state key="normal" title="Gamma" image="Gamma (100x100).jpg"/>
+                                    <state key="selected" image="Gamma selected (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HO2-Nu-A42"/>
                                     </connections>
@@ -175,14 +178,16 @@
                                     <rect key="frame" x="144" y="0.0" width="48" height="128"/>
                                     <animations/>
                                     <state key="normal" title="Solarise" image="Solarise (100x100).jpg"/>
+                                    <state key="selected" image="Solarise selected (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BhU-LL-Rth"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EG-kn-Or7">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0EG-kn-Or7">
                                     <rect key="frame" x="192" y="0.0" width="48" height="128"/>
                                     <animations/>
                                     <state key="normal" title="Grayscale" image="Grayscale (100x100).jpg"/>
+                                    <state key="selected" image="Grayscale selected (100x100).jpg"/>
                                     <connections>
                                         <action selector="onApplyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cD2-Ef-pQ8"/>
                                     </connections>
@@ -216,9 +221,14 @@
     </scenes>
     <resources>
         <image name="Brightness (100x100).jpg" width="100" height="100"/>
+        <image name="Brightness selected(100x100).jpg" width="100" height="100"/>
         <image name="Contrast (100x100).jpg" width="100" height="100"/>
+        <image name="Contrast selected (100x100).jpg" width="100" height="100"/>
         <image name="Gamma (100x100).jpg" width="100" height="100"/>
+        <image name="Gamma selected (100x100).jpg" width="100" height="100"/>
         <image name="Grayscale (100x100).jpg" width="100" height="100"/>
+        <image name="Grayscale selected (100x100).jpg" width="100" height="100"/>
         <image name="Solarise (100x100).jpg" width="100" height="100"/>
+        <image name="Solarise selected (100x100).jpg" width="100" height="100"/>
     </resources>
 </document>

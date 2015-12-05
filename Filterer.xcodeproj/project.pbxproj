@@ -20,6 +20,11 @@
 		287232751C1309F500F74512 /* Gamma (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 287232701C1309F500F74512 /* Gamma (100x100).jpg */; };
 		287232761C1309F500F74512 /* Grayscale (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 287232711C1309F500F74512 /* Grayscale (100x100).jpg */; };
 		287232771C1309F500F74512 /* Solarise (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 287232721C1309F500F74512 /* Solarise (100x100).jpg */; };
+		2872327E1C136A4800F74512 /* Brightness selected(100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 287232791C136A4800F74512 /* Brightness selected(100x100).jpg */; };
+		2872327F1C136A4800F74512 /* Contrast selected (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2872327A1C136A4800F74512 /* Contrast selected (100x100).jpg */; };
+		287232801C136A4800F74512 /* Gamma selected (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2872327B1C136A4800F74512 /* Gamma selected (100x100).jpg */; };
+		287232811C136A4800F74512 /* Grayscale selected (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2872327C1C136A4800F74512 /* Grayscale selected (100x100).jpg */; };
+		287232821C136A4800F74512 /* Solarise selected (100x100).jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2872327D1C136A4800F74512 /* Solarise selected (100x100).jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +43,11 @@
 		287232701C1309F500F74512 /* Gamma (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gamma (100x100).jpg"; sourceTree = "<group>"; };
 		287232711C1309F500F74512 /* Grayscale (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Grayscale (100x100).jpg"; sourceTree = "<group>"; };
 		287232721C1309F500F74512 /* Solarise (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Solarise (100x100).jpg"; sourceTree = "<group>"; };
+		287232791C136A4800F74512 /* Brightness selected(100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Brightness selected(100x100).jpg"; sourceTree = "<group>"; };
+		2872327A1C136A4800F74512 /* Contrast selected (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Contrast selected (100x100).jpg"; sourceTree = "<group>"; };
+		2872327B1C136A4800F74512 /* Gamma selected (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Gamma selected (100x100).jpg"; sourceTree = "<group>"; };
+		2872327C1C136A4800F74512 /* Grayscale selected (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Grayscale selected (100x100).jpg"; sourceTree = "<group>"; };
+		2872327D1C136A4800F74512 /* Solarise selected (100x100).jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Solarise selected (100x100).jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +97,11 @@
 		287232781C130A0100F74512 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				287232791C136A4800F74512 /* Brightness selected(100x100).jpg */,
+				2872327A1C136A4800F74512 /* Contrast selected (100x100).jpg */,
+				2872327B1C136A4800F74512 /* Gamma selected (100x100).jpg */,
+				2872327C1C136A4800F74512 /* Grayscale selected (100x100).jpg */,
+				2872327D1C136A4800F74512 /* Solarise selected (100x100).jpg */,
 				2872326E1C1309F500F74512 /* Brightness (100x100).jpg */,
 				2872326F1C1309F500F74512 /* Contrast (100x100).jpg */,
 				287232701C1309F500F74512 /* Gamma (100x100).jpg */,
@@ -155,14 +170,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2872327F1C136A4800F74512 /* Contrast selected (100x100).jpg in Resources */,
 				280B28FA1BE9582500B4BB3F /* LaunchScreen.storyboard in Resources */,
+				287232821C136A4800F74512 /* Solarise selected (100x100).jpg in Resources */,
 				287232761C1309F500F74512 /* Grayscale (100x100).jpg in Resources */,
 				287232771C1309F500F74512 /* Solarise (100x100).jpg in Resources */,
+				287232811C136A4800F74512 /* Grayscale selected (100x100).jpg in Resources */,
 				280B28F71BE9582500B4BB3F /* Assets.xcassets in Resources */,
+				287232801C136A4800F74512 /* Gamma selected (100x100).jpg in Resources */,
 				287232751C1309F500F74512 /* Gamma (100x100).jpg in Resources */,
 				287232741C1309F500F74512 /* Contrast (100x100).jpg in Resources */,
 				280B28F51BE9582500B4BB3F /* Main.storyboard in Resources */,
 				287232731C1309F500F74512 /* Brightness (100x100).jpg in Resources */,
+				2872327E1C136A4800F74512 /* Brightness selected(100x100).jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
