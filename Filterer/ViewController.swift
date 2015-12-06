@@ -24,12 +24,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var filterButton: UIButton!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var compareButton: UIButton!
+    @IBOutlet var editView: UIView!
+    @IBOutlet var editSlider: UISlider!
+    @IBOutlet var editButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         filterButton.enabled = false
+        editButton.enabled = false
         shareButton.enabled = true
         compareButton.enabled = false
+        editView.translatesAutoresizingMaskIntoConstraints = false
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         upperImageView.userInteractionEnabled = true
@@ -42,7 +47,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func onPress(sender: UILongPressGestureRecognizer) {
-        print(lowerImageView.alpha)
         if compareButton.enabled {
             if sender.state == .Began {
                 switchImage(Original)
@@ -53,7 +57,60 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    @IBAction func setFilterValue(sender: UISlider) {
+        print("Editing filter: " + String(sender.value))
+        filter!.set(Double(sender.value))
+        reapplyFilter()
+        switchImage(Filtered)
+    }
+
+    @IBAction func editFilter(sender: UIButton) {
+        if sender.selected {
+            sender.selected = false
+            hideEditBar()
+        }
+        else {
+            sender.selected = true
+            hideSecondaryMenu()
+            showEditBar()
+        }
+    }
+    
+    func initSlider() {
+        editSlider.minimumValue = Float(filter!.minValue)
+        editSlider.maximumValue = Float(filter!.maxValue)
+        editSlider.value = Float(filter!.value)
+    }
+    
+    func showEditBar() {
+        view.addSubview(editView)
+        let bottomConstraint = editView.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
+        let leftConstraint = editView.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
+        let rightConstraint = editView.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        let heightConstraint = editView.heightAnchor.constraintEqualToConstant(44)
+        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
+        view.layoutIfNeeded()
+        
+        editView.alpha = 0
+        UIView.animateWithDuration(0.4) {
+            self.editView.alpha = 1
+        }
+        editButton.selected = true
+    }
+
+    func hideEditBar() {
+        UIView.animateWithDuration(0.4, animations: {
+        self.editView.alpha = 0
+        }) { completed in
+            if completed {
+                self.editView.removeFromSuperview()
+            }
+        }
+    }
+    
+    
     @IBAction func onApplyFilter(sender: UIButton) {
+        editButton.enabled = true
         imageProcessor?.reset()
         if sender.selected {
             sender.selected = false
@@ -77,7 +134,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         currentFilterButton = sender
         compareButton.enabled = true
         let filterName = sender.currentTitle!
-        filter = Gamma.getFilterByName(filterName)  // Can't call protocol extension on the protocol itself :(
+        filter = Gamma.getFilterByName(filterName)
+        imageProcessor?.applyFilter(filter!)
+    }
+    
+    func reapplyFilter() {
+        imageProcessor?.reset()
         imageProcessor?.applyFilter(filter!)
     }
     
@@ -127,6 +189,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
    
     @IBAction func onShare(sender: UIButton) {
         hideSecondaryMenu()
+        hideEditBar()
         if compareButton.selected {
             compareButton.selected = false
             switchImage(Filtered)
@@ -137,6 +200,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBAction func onNewPhoto(sender: UIButton) {
         hideSecondaryMenu()
+        hideEditBar()
         let actionSheet = UIAlertController(title: "New Photo", message: nil, preferredStyle: .ActionSheet)
         actionSheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { action in
             self.selectImage(.Camera)
@@ -178,6 +242,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 compareButton.selected = false
                 switchImage(Filtered)
             }
+            hideEditBar()
             showSecondaryMenu()
         }
     }

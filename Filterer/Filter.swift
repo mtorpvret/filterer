@@ -2,21 +2,23 @@ import Foundation
 
 // This is the protocol that all filters must conform to
 public protocol Filter {
-    static var minValue: Double { get }
-    static var maxValue: Double { get }
-    static var defaultValue: Double { get }
+    var minValue: Double { get }
+    var maxValue: Double { get }
+    var defaultValue: Double { get }
+    var value: Double { get }
     func apply(pixels: UnsafeMutableBufferPointer<Pixel>)
+    func set(value: Double)
 }
 
 public extension Filter {
-    static public func getFilterByName(filterName: String) -> Filter? {
+    public static func getFilterByName(filterName: String) -> Filter? {
         switch filterName {
             // Ugly code, refactor!
-            case "Contrast": return Contrast(level: Contrast.defaultValue)
-            case "Gamma": return Gamma(value: Gamma.defaultValue)
-            case "Solarise": return Solarise(threshold: Solarise.defaultValue)
-            case "Brightness": return Brightness(increase: Brightness.defaultValue)
-            case "Grayscale": return Grayscale(weighted: Grayscale.defaultValue)
+            case "Contrast": return Contrast()
+            case "Gamma": return Gamma()
+            case "Solarise": return Solarise()
+            case "Brightness": return Brightness()
+            case "Grayscale": return Grayscale()
             default: return nil
         }
     }
@@ -28,15 +30,22 @@ public extension Filter {
 
 public class Contrast: Filter {
     var factor: Double
-    static public var minValue: Double = -255
-    static public var maxValue: Double = 255
-    static public var defaultValue: Double = 100
+    public var minValue: Double = -255
+    public var maxValue: Double = 255
+    public var defaultValue: Double = 100
+    public var value: Double
     // TODO: DRY
+    public init() {
+        factor = 259*Double(Int(defaultValue)+255)/Double(255*(259-Int(defaultValue)))
+        value = defaultValue
+    }
     public init(level: Double) {
-        factor = 259*Double(Int(level)+255)/Double(255*(259-Int(level)))        
+        factor = 259*Double(Int(level)+255)/Double(255*(259-Int(level)))
+        value = level
     }
     public func set(level: Double) {
         factor = 259*Double(Int(level)+255)/Double(255*(259-Int(level)))
+        value = level
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
         for i in 0..<pixels.count {
@@ -56,14 +65,21 @@ public class Contrast: Filter {
 
 public class Gamma: Filter {
     var gCorr: Double
-    static public var minValue: Double = 0
-    static public var maxValue: Double = 8
-    static public var defaultValue: Double = 4
+    public var minValue: Double = 0
+    public var maxValue: Double = 8
+    public var defaultValue: Double = 4
+    public var value: Double
+    public init() {
+        gCorr = 1/defaultValue
+        value = defaultValue
+    }
     public init(value: Double) {
         gCorr = 1/value
+        self.value = value
     }
     public func set(value: Double) {
         gCorr = 1/value
+        self.value = value
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
         for i in 0..<pixels.count {
@@ -78,14 +94,21 @@ public class Gamma: Filter {
 
 public class Solarise: Filter {
     var threshold: UInt8
-    static public var minValue: Double = 0
-    static public var maxValue: Double = 255
-    static public var defaultValue: Double = 128
+    public var minValue: Double = 0
+    public var maxValue: Double = 255
+    public var defaultValue: Double = 128
+    public var value: Double
+    public init() {
+        self.threshold = UInt8(defaultValue)
+        value = defaultValue
+    }
     public init(threshold: Double) {
         self.threshold = UInt8(threshold)
+        value = threshold
     }
     public func set(threshold: Double) {
         self.threshold = UInt8(threshold)
+        value = threshold
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
         for i in 0..<pixels.count {
@@ -106,9 +129,14 @@ public class Solarise: Filter {
 
 public class Grayscale: Filter {
     var weighted: Bool
-    static public var minValue: Double = 0
-    static public var maxValue: Double = 1
-    static public var defaultValue: Double = 1
+    public var minValue: Double = 0
+    public var maxValue: Double = 1
+    public var defaultValue: Double = 1
+    public var value: Double
+    public init() {
+        self.weighted = true
+        value = 1
+    }
     public init(weighted: Double) {
         if (weighted < 0.5) {
             self.weighted = false
@@ -116,6 +144,7 @@ public class Grayscale: Filter {
         else {
             self.weighted = true
         }
+        value = weighted
     }
     public func set(weighted: Double) {
         if (weighted < 0.5) {
@@ -124,6 +153,7 @@ public class Grayscale: Filter {
         else {
             self.weighted = true
         }
+        value = weighted
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
         for i in 0..<pixels.count {
@@ -146,14 +176,21 @@ public class Grayscale: Filter {
 
 public class Brightness: Filter {
     var increase: Int8
-    static public var minValue: Double = -255
-    static public var maxValue: Double = 255
-    static public var defaultValue: Double = 100
+    public var minValue: Double = -255
+    public var maxValue: Double = 255
+    public var defaultValue: Double = 100
+    public var value: Double
+    public init() {
+        self.increase = Int8(defaultValue)
+        value = defaultValue
+    }
     public init(increase: Double) {
         self.increase = Int8(increase)
+        value = increase
     }
     public func set(increase: Double) {
         self.increase = Int8(increase)
+        value = increase
     }
     public func apply(pixels: UnsafeMutableBufferPointer<Pixel>) {
         for i in 0..<pixels.count {
