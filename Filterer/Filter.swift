@@ -67,7 +67,7 @@ public class Gamma: Filter {
     var gCorr: Double
     public var minValue: Double = 0
     public var maxValue: Double = 8
-    public var defaultValue: Double = 4
+    public var defaultValue: Double = 1.25
     public var value: Double
     public init() {
         gCorr = 1/defaultValue
@@ -176,9 +176,9 @@ public class Grayscale: Filter {
 
 public class Brightness: Filter {
     var increase: Int8
-    public var minValue: Double = -255
-    public var maxValue: Double = 255
-    public var defaultValue: Double = 100
+    public var minValue: Double = -127
+    public var maxValue: Double = 128
+    public var defaultValue: Double = 50
     public var value: Double
     public init() {
         self.increase = Int8(defaultValue)

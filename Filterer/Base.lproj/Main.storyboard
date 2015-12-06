@@ -220,11 +220,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hDI-uS-9eE">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDI-uS-9eE">
                             <rect key="frame" x="-2" y="0.0" width="244" height="129"/>
                             <animations/>
                             <connections>
-                                <action selector="setFilterValue:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="yU2-GT-NJo"/>
+                                <action selector="setFilterValue:" destination="BYZ-38-t0r" eventType="valueChanged" id="qbc-87-HTe"/>
                             </connections>
                         </slider>
                     </subviews>

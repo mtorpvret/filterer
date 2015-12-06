@@ -58,7 +58,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func setFilterValue(sender: UISlider) {
-        print("Editing filter: " + String(sender.value))
+        print("Edit: " + String(sender.value))
         filter!.set(Double(sender.value))
         reapplyFilter()
         switchImage(Filtered)
@@ -83,6 +83,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func showEditBar() {
+        initSlider()
         view.addSubview(editView)
         let bottomConstraint = editView.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
         let leftConstraint = editView.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
@@ -106,6 +107,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 self.editView.removeFromSuperview()
             }
         }
+        editButton.selected = false
     }
     
     
