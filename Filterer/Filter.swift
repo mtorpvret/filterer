@@ -1,10 +1,11 @@
-import Foundation
+import UIKit
 
 // This is the protocol that all filters must conform to
 public protocol Filter {
     var minValue: Double { get }
     var maxValue: Double { get }
     var defaultValue: Double { get }
+    var thumbnail: UIImage? { get }
     var value: Double { get }
     func apply(pixels: UnsafeMutableBufferPointer<Pixel>)
     func set(value: Double)
@@ -34,6 +35,7 @@ public class Contrast: Filter {
     public var maxValue: Double = 255
     public var defaultValue: Double = 100
     public var value: Double
+    public var thumbnail: UIImage? = UIImage(named: "Contrast (100x100).jpg")
     // TODO: DRY
     public init() {
         factor = 259*Double(Int(defaultValue)+255)/Double(255*(259-Int(defaultValue)))
@@ -69,6 +71,7 @@ public class Gamma: Filter {
     public var maxValue: Double = 8
     public var defaultValue: Double = 1.25
     public var value: Double
+    public var thumbnail: UIImage? = UIImage(named: "Gamma (100x100).jpg")
     public init() {
         gCorr = 1/defaultValue
         value = defaultValue
@@ -98,6 +101,7 @@ public class Solarise: Filter {
     public var maxValue: Double = 255
     public var defaultValue: Double = 128
     public var value: Double
+    public var thumbnail: UIImage? = UIImage(named: "Solarise (100x100).jpg")
     public init() {
         self.threshold = UInt8(defaultValue)
         value = defaultValue
@@ -133,6 +137,7 @@ public class Grayscale: Filter {
     public var maxValue: Double = 1
     public var defaultValue: Double = 1
     public var value: Double
+    public var thumbnail: UIImage? = UIImage(named: "Grayscale (100x100).jpg")
     public init() {
         self.weighted = true
         value = 1
@@ -180,6 +185,7 @@ public class Brightness: Filter {
     public var maxValue: Double = 128
     public var defaultValue: Double = 50
     public var value: Double
+    public var thumbnail: UIImage? = UIImage(named: "Brightness (100x100).jpg")
     public init() {
         self.increase = Int8(defaultValue)
         value = defaultValue

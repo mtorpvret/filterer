@@ -11,14 +11,18 @@ import UIKit
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var imageProcessor: ImageProcessor?
     var filter: Filter?
+    var filterNames: [String] = ["Brightness", "Contrast", "Gamma", "Solarise", "Grayscale"]
+    var currentFilterIndex: Int?
     var currentFilterButton: UIButton?
     var currentImageView: UIImageView?
     let Original: Bool = true
     let Filtered: Bool = false
+    let reuseIdentifier = "FilterCell"
     
     @IBOutlet var lowerImageView: UIImageView!
     @IBOutlet var upperImageView: UIImageView!
     @IBOutlet var secondaryMenu: UIView!
+    @IBOutlet var scrollingSecMenu: UICollectionView!
     @IBOutlet var textOverlay: UIView!
     @IBOutlet var bottomMenu: UIStackView!
     @IBOutlet var filterButton: UIButton!
@@ -34,6 +38,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         editButton.enabled = false
         shareButton.enabled = true
         compareButton.enabled = false
+        scrollingSecMenu.translatesAutoresizingMaskIntoConstraints = false
         editView.translatesAutoresizingMaskIntoConstraints = false
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
@@ -44,6 +49,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         currentImageView = upperImageView
         textOverlay.translatesAutoresizingMaskIntoConstraints = false
         textOverlay.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        scrollingSecMenu.delegate = self
+        scrollingSecMenu.dataSource = self
+    }
+    
+    func filterForIndexPath(indexPath: NSIndexPath)-> Filter? {
+        return Gamma.getFilterByName(filterNames[indexPath.row])
     }
     
     @IBAction func onPress(sender: UILongPressGestureRecognizer) {
@@ -130,12 +141,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func applyFilter(sender: UIButton) {
+        let filterName = sender.currentTitle!
         if currentFilterButton != nil {
             currentFilterButton!.selected = false
         }
         currentFilterButton = sender
+        applyFiltername(filterName)
+    }
+    
+    func applyFiltername(filterName: String) {
         compareButton.enabled = true
-        let filterName = sender.currentTitle!
         filter = Gamma.getFilterByName(filterName)
         imageProcessor?.applyFilter(filter!)
     }
@@ -250,34 +265,44 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     func showSecondaryMenu() {
-        view.addSubview(secondaryMenu)
-        let bottomConstraint = secondaryMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
-        let leftConstraint = secondaryMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint = secondaryMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
-        let heightConstraint = secondaryMenu.heightAnchor.constraintEqualToConstant(44)
+//        showSecMenu(secondaryMenu, height: 44)
+        showSecMenu(scrollingSecMenu, height: 150)
+    }
+    
+    func hideSecondaryMenu() {
+//        hideSecMenu(secondaryMenu)
+        hideSecMenu(scrollingSecMenu)
+    }
+    
+    func showSecMenu(menu: UIView, height: CGFloat) {
+        view.addSubview(menu)
+        let bottomConstraint = menu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
+        let leftConstraint = menu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
+        let rightConstraint = menu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        let heightConstraint = menu.heightAnchor.constraintEqualToConstant(height)
         NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
         view.layoutIfNeeded()
         
-        secondaryMenu.alpha = 0
+        menu.alpha = 0
         UIView.animateWithDuration(0.4) {
-            self.secondaryMenu.alpha = 1
+            menu.alpha = 1
         }
         filterButton.selected = true
     }
     
-    func hideSecondaryMenu() {
+    func hideSecMenu(menu: UIView) {
         if filterButton.selected {
             UIView.animateWithDuration(0.4, animations: {
-                self.secondaryMenu.alpha = 0
+                menu.alpha = 0
                 }) { completed in
                     if completed {
-                        self.secondaryMenu.removeFromSuperview()
+                        menu.removeFromSuperview()
                     }
             }
             filterButton.selected = false
         }
     }
-    
+
     func showOriginalText(imageView: UIImageView) {
         imageView.addSubview(textOverlay)
         let topConstraint = textOverlay.topAnchor.constraintEqualToAnchor(imageView.topAnchor)
@@ -299,3 +324,51 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 }
 
+extension ViewController : UICollectionViewDataSource {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return filterNames.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        //1
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! FilterCell
+        //2
+        let fltr = filterForIndexPath(indexPath)!
+        cell.backgroundColor = UIColor.blackColor()
+        //3
+        cell.imageView.image = fltr.thumbnail
+        cell.label.text = filterNames[indexPath.row]
+        
+        return cell
+    }}
+
+extension ViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            
+            let flt =  filterForIndexPath(indexPath)!
+
+            if var size = flt.thumbnail?.size {
+                size.width += 10
+                size.height += 10
+                return size
+            }
+            return CGSize(width: 100, height: 100)
+    }
+    
+}
+
+extension ViewController : UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView,
+        shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+            print("Selection " + String())
+            currentFilterIndex = indexPath.row
+            applyFiltername(filterNames[currentFilterIndex!])
+            return true
+    }
+}

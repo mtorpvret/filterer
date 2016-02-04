@@ -122,6 +122,7 @@
                         <outlet property="editView" destination="OPx-hA-NsH" id="sUi-Zm-txT"/>
                         <outlet property="filterButton" destination="SkC-ir-G84" id="djN-Xb-z3w"/>
                         <outlet property="lowerImageView" destination="vwW-PK-stc" id="VYA-6D-onM"/>
+                        <outlet property="scrollingSecMenu" destination="K6j-09-Apv" id="T4a-bK-1tE"/>
                         <outlet property="secondaryMenu" destination="wmP-Ay-9Bc" id="yNT-0q-uLF"/>
                         <outlet property="shareButton" destination="NYo-Gt-Vyj" id="PGK-x6-zLA"/>
                         <outlet property="textOverlay" destination="zXm-Ot-x1n" id="9Ez-Au-y3z"/>
@@ -237,6 +238,60 @@
                         <constraint firstItem="hDI-uS-9eE" firstAttribute="top" secondItem="OPx-hA-NsH" secondAttribute="top" id="lEm-3E-QIZ"/>
                     </constraints>
                 </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="K6j-09-Apv">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xxf-lq-Mij">
+                        <size key="itemSize" width="70" height="70"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells>
+                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FilterCell" id="Ul3-ct-wYB" customClass="FilterCell" customModule="Filterer" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="29" width="70" height="70"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VjR-af-dDx">
+                                        <rect key="frame" x="5" y="5" width="60" height="60"/>
+                                        <animations/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="H2x-j3-Tbg">
+                                        <rect key="frame" x="5" y="45" width="60" height="20"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.36161099137931035" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="NSj-q3-j1d"/>
+                                        </constraints>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <animations/>
+                            <constraints>
+                                <constraint firstItem="VjR-af-dDx" firstAttribute="top" secondItem="Ul3-ct-wYB" secondAttribute="top" constant="5" id="Gcl-tW-iEv"/>
+                                <constraint firstItem="H2x-j3-Tbg" firstAttribute="leading" secondItem="Ul3-ct-wYB" secondAttribute="leading" constant="5" id="Z63-gR-2HV"/>
+                                <constraint firstAttribute="trailing" secondItem="VjR-af-dDx" secondAttribute="trailing" constant="5" id="a3L-LL-eu5"/>
+                                <constraint firstAttribute="bottom" secondItem="VjR-af-dDx" secondAttribute="bottom" constant="5" id="eJi-Fo-etc"/>
+                                <constraint firstItem="VjR-af-dDx" firstAttribute="leading" secondItem="Ul3-ct-wYB" secondAttribute="leading" constant="5" id="hzL-Jy-YPr"/>
+                                <constraint firstAttribute="trailing" secondItem="H2x-j3-Tbg" secondAttribute="trailing" constant="5" id="r3S-d7-aE1"/>
+                                <constraint firstAttribute="bottom" secondItem="H2x-j3-Tbg" secondAttribute="bottom" constant="5" id="zMf-7O-Hya"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="imageView" destination="VjR-af-dDx" id="BIB-u9-hoc"/>
+                                <outlet property="label" destination="H2x-j3-Tbg" id="JSq-bI-vId"/>
+                            </connections>
+                        </collectionViewCell>
+                    </cells>
+                </collectionView>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.10000000000000001" id="ySj-Wq-M9R">
                     <connections>
                         <action selector="onPress:" destination="BYZ-38-t0r" id="cwB-FN-Yvf"/>
