@@ -15,13 +15,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var currentFilterIndex: Int?
     var currentFilterButton: UIButton?
     var currentImageView: UIImageView?
+    var oldFilterName: String?
     let Original: Bool = true
     let Filtered: Bool = false
     let reuseIdentifier = "FilterCell"
     
     @IBOutlet var lowerImageView: UIImageView!
     @IBOutlet var upperImageView: UIImageView!
-    @IBOutlet var secondaryMenu: UIView!
     @IBOutlet var scrollingSecMenu: UICollectionView!
     @IBOutlet var textOverlay: UIView!
     @IBOutlet var bottomMenu: UIStackView!
@@ -40,8 +40,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareButton.enabled = false
         scrollingSecMenu.translatesAutoresizingMaskIntoConstraints = false
         editView.translatesAutoresizingMaskIntoConstraints = false
-        secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
-        secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         upperImageView.userInteractionEnabled = true
         lowerImageView.userInteractionEnabled = true
         lowerImageView.alpha = 1
@@ -69,7 +67,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func setFilterValue(sender: UISlider) {
-        print("Edit: " + String(sender.value))
         filter!.set(Double(sender.value))
         reapplyFilter()
         switchImage(Filtered)
@@ -121,33 +118,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         editButton.selected = false
     }
     
-    
-    @IBAction func onApplyFilter(sender: UIButton) {
-        editButton.enabled = true
-        imageProcessor?.reset()
-        if sender.selected {
-            sender.selected = false
-            resetCurrentFilter()
-        }
-        else {
-            sender.selected = true
-            applyFilter(sender)
-        }
-        switchImage(Filtered)
-    }
-    
-    func resetCurrentFilter() {
-        currentFilterButton = nil
-    }
-    
-    func applyFilter(sender: UIButton) {
-        let filterName = sender.currentTitle!
-        if currentFilterButton != nil {
-            currentFilterButton!.selected = false
-        }
-        currentFilterButton = sender
-        applyFiltername(filterName)
-    }
     
     func applyFiltername(filterName: String) {
         compareButton.enabled = true
@@ -243,6 +213,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             compareButton.enabled = false
             filterButton.enabled = true
             shareButton.enabled = true
+            editButton.enabled = false
             switchImage(Original)
         }
     }
@@ -265,12 +236,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     func showSecondaryMenu() {
-//        showSecMenu(secondaryMenu, height: 44)
         showSecMenu(scrollingSecMenu, height: 150)
     }
     
     func hideSecondaryMenu() {
-//        hideSecMenu(secondaryMenu)
         hideSecMenu(scrollingSecMenu)
     }
     
@@ -304,23 +273,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     func showOriginalText(imageView: UIImageView) {
+        self.textOverlay.alpha = 0
         imageView.addSubview(textOverlay)
         let topConstraint = textOverlay.topAnchor.constraintEqualToAnchor(imageView.topAnchor)
         let leftConstraint = textOverlay.leftAnchor.constraintEqualToAnchor(imageView.leftAnchor)
         let rightConstraint = textOverlay.rightAnchor.constraintEqualToAnchor(imageView.rightAnchor)
         let heightConstraint = textOverlay.heightAnchor.constraintEqualToConstant(44)
         NSLayoutConstraint.activateConstraints([topConstraint, leftConstraint, rightConstraint, heightConstraint])
-        secondaryMenu.alpha = 1
-   }
+        UIView.animateWithDuration(0.4, animations: {
+           self.textOverlay.alpha = 1
+        })
+    }
 
     func hideOriginalText() {
-//        UIView.animateWithDuration(0.4, animations: {
-//            self.textOverlay.alpha = 0
-//            }) { completed in
-//                if completed {
+        UIView.animateWithDuration(0.4, animations: {
+            self.textOverlay.alpha = 0
+            }) { completed in
+                if completed {
                     self.textOverlay.removeFromSuperview()
-//                }
-//        }
+                }
+        }
     }
 }
 
@@ -366,9 +338,26 @@ extension ViewController : UICollectionViewDelegateFlowLayout {
 extension ViewController : UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            print("Selection " + String())
             currentFilterIndex = indexPath.row
-            applyFiltername(filterNames[currentFilterIndex!])
+            let newFilterName = filterNames[currentFilterIndex!]
+            if oldFilterName == nil {
+                editButton.enabled = true
+                applyFiltername(newFilterName)
+                oldFilterName = newFilterName
+            }
+            else if oldFilterName == newFilterName {
+                editButton.enabled = false
+                imageProcessor?.reset()
+                oldFilterName = nil
+            }
+            else {
+                editButton.enabled = true
+                imageProcessor?.reset()
+                applyFiltername(newFilterName)
+                oldFilterName = newFilterName
+            }
+            switchImage(Filtered)
             return true
     }
+    
 }

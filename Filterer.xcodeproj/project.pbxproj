@@ -84,6 +84,7 @@
 			children = (
 				287232781C130A0100F74512 /* Images */,
 				280B29011BE95C0200B4BB3F /* Filter.swift */,
+				280E80331C149B2600091BB8 /* FilterCell.swift */,
 				280B29031BE95C1100B4BB3F /* ImageProcessor.swift */,
 				280B29041BE95C1100B4BB3F /* RGBAImage.swift */,
 				280B28EF1BE9582500B4BB3F /* AppDelegate.swift */,
@@ -92,7 +93,6 @@
 				280B28F61BE9582500B4BB3F /* Assets.xcassets */,
 				280B28F81BE9582500B4BB3F /* LaunchScreen.storyboard */,
 				280B28FB1BE9582500B4BB3F /* Info.plist */,
-				280E80331C149B2600091BB8 /* FilterCell.swift */,
 			);
 			path = Filterer;
 			sourceTree = "<group>";
